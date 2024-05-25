@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/static/css/main.9e9c6366.css",
+    "main.js": "/static/js/main.4762f02f.js",
+    "static/media/chinese_words.csv": "/static/media/chinese_words.579db75ef15cad44f231.csv",
+    "static/media/cheer.mp3": "/static/media/cheer.364fcaf247cc0f1f8096.mp3",
+    "index.html": "/index.html",
+    "main.9e9c6366.css.map": "/static/css/main.9e9c6366.css.map",
+    "main.4762f02f.js.map": "/static/js/main.4762f02f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9e9c6366.css",
+    "static/js/main.4762f02f.js"
+  ]
+}
