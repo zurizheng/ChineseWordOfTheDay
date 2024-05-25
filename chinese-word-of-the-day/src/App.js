@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Papa from 'papaparse';
 import chineseWords from './chinese_words.csv'; // Adjust the path as necessary
 import './App.css'; // Import the CSS file
+import cheerSound from './sounds/cheer.mp3'; // Import the cheer sound
+import Confetti from 'react-confetti';
 
 const App = () => {
-  // Your existing component code
   const [wordList, setWordList] = useState([]);
   const [targetWord, setTargetWord] = useState(null);
   const [guess, setGuess] = useState('');
   const [strikes, setStrikes] = useState(0);
   const [isWrongGuess, setIsWrongGuess] = useState(false);
+  const [isWinner, setIsWinner] = useState(false);
+  const cheerAudio = useRef(new Audio(cheerSound)); // Create a ref for the cheer audio
 
   useEffect(() => {
     // Load and parse the CSV file
@@ -34,8 +37,8 @@ const App = () => {
     if (guess.length !== targetWord.word.length) return;
 
     if (guess === targetWord.word) {
-      alert('Congratulations! You guessed the word!');
-      startNewGame();
+      cheerAudio.current.play(); // Play the cheer sound
+      setIsWinner(true);
     } else {
       setStrikes(prevStrikes => prevStrikes + 1);
       setIsWrongGuess(true); // Set wrong guess indicator
@@ -54,6 +57,7 @@ const App = () => {
     setStrikes(0);
     setGuess('');
     setIsWrongGuess(false); // Reset wrong guess indicator
+    setIsWinner(false);
   };
 
   if (!targetWord) {
@@ -63,19 +67,30 @@ const App = () => {
   return (
     <div className="container">
       <h1>Guess the Chinese Word</h1>
-      <p>Guess the {targetWord.word.length}-character word!</p>
-      <form onSubmit={handleGuessSubmit}>
-        <input
-          type="text"
-          value={guess}
-          onChange={handleGuessChange}
-          maxLength={targetWord.word.length}
-          className={`guess-input ${isWrongGuess ? 'wrong' : ''}`} // Change input background color on wrong guess
-        />
-        <button type="submit">Guess</button>
-      </form>
+      {isWinner && <Confetti />}
+      {!isWinner ? (
+        <>
+          <p>Guess the {targetWord.word.length}-character word!</p>
+          <form onSubmit={handleGuessSubmit}>
+            <input
+              type="text"
+              value={guess}
+              onChange={handleGuessChange}
+              maxLength={targetWord.word.length}
+              className={`guess-input ${isWrongGuess ? 'wrong' : ''}`}
+            />
+            <button type="submit">Guess</button>
+          </form>
+        </>
+      ) : (
+        <div>
+          <p>Congratulations! You guessed the word!</p>
+          <button onClick={startNewGame}>Start New Game</button>
+        </div>
+      )}
+
       <div>
-        <p><strong>Strikes:</strong> {strikes} / 7</p>
+        <p><strong>Strikes:</strong> {strikes} / 6</p>
       </div>
       <div>
         {strikes >= 1 && <p><strong>Pinyin:</strong> {targetWord.word_pinyin}</p>}

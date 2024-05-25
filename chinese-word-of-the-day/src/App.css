@@ -85,3 +85,8 @@ audio {
 .guess-input.wrong {
   background-color: red; /* Background color for wrong guess */
 }
+
+.hints {
+  justify-content: center;
+  align-items: center;
+}
