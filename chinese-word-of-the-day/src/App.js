@@ -42,7 +42,7 @@ const App = () => {
     } else {
       setStrikes(prevStrikes => prevStrikes + 1);
       setIsWrongGuess(true); // Set wrong guess indicator
-      if (strikes + 1 >= 7) {
+      if (strikes + 1 >= 6) {
         alert(`Game Over! The word was ${targetWord.word}.`);
         startNewGame();
       }
@@ -90,20 +90,20 @@ const App = () => {
       )}
 
       <div>
-        <p><strong>Strikes:</strong> {strikes} / 6</p>
+        <p><strong>Strikes:</strong> {strikes} / 5</p>
       </div>
       <div>
-        {strikes >= 1 && <p><strong>Pinyin:</strong> {targetWord.word_pinyin}</p>}
-        {strikes >= 2 && <p><strong>English:</strong> {targetWord.word_eng}</p>}
-        {strikes >= 3 && <p><strong>Sentence:</strong> {targetWord.sentence.replace(targetWord.word, "_".repeat(targetWord.word.length))}</p>}
-        {strikes >= 4 && <p><strong>Sentence Pinyin:</strong> {targetWord.sentence_pinyin}</p>}
-        {strikes >= 5 && <p><strong>Sentence English:</strong> {targetWord.sentence_eng}</p>}
-        {strikes >= 6 && (
+        {strikes >= 0 && <p><strong>English:</strong> {targetWord.word_eng}</p>}
+        {strikes >= 1 && <p><strong>Sentence:</strong> {targetWord.sentence.replace(targetWord.word, "_".repeat(targetWord.word.length))}</p>}
+        {strikes >= 2 && (
           <>
             <audio controls src={targetWord.sound}>Your browser does not support the audio element.</audio>
             <audio controls src={targetWord.sentence_sound}>Your browser does not support the audio element.</audio>
           </>
         )}
+        {strikes >= 3 && <p><strong>Pinyin:</strong> {targetWord.word_pinyin}</p>}
+        {strikes >= 4 && <p><strong>Sentence Pinyin:</strong> {targetWord.sentence_pinyin}</p>}
+        
       </div>
     </div>
   );
